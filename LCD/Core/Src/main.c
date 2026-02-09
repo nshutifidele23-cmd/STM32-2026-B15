@@ -45,6 +45,7 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+
 rgb_lcd lcdData;
 /* USER CODE END PV */
 
@@ -101,6 +102,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+  // Affichage des nos noms sur LCD et les positionements
+  //reglage de couleur de retro en blanc
 	lcd_position(&hi2c1,0,0);
 	lcd_print(&hi2c1,"Audy");
 	lcd_position(&hi2c1,0,1);

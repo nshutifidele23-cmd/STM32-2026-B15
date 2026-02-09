@@ -101,7 +101,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-	  //Partie 1
+	  //Partie 1 pour faire clignoter la led
 
 	  /*HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, 1);*/
 	  	  			//HAL_Delay(500);					/* Insert delay 500 ms */
@@ -110,7 +110,7 @@ int main(void)
 
 
 
-	  //Partie 2
+	  //Partie 2 pour faire clignoter la led apres appuis du boutton 
 
 	 /* if (HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_SET)
 		  			{
