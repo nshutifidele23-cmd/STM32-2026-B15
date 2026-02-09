@@ -54,7 +54,11 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
+// Buffer d'affichage LCD (16 caractères max par ligne)
 char lcd_buf[16];
+
+// Variables globales pour la température et l'humidité
+// Valeurs multipliées par 100 
 int temp,hum;
 
 /* USER CODE END PV */
@@ -62,6 +66,20 @@ int temp,hum;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+
+
+/*
+ * Fonction : lcd_affichage
+ *
+ * Rôle :
+ * - Efface l'écran LCD
+ * - Affiche la température sur la première ligne au format XX.XX °C
+ * - Affiche l'humidité sur la deuxième ligne au format XX.XX %
+ *
+ * - La température est fournie sous forme entière multipliée par 100
+ * - L'humidité est également fournie multipliée par 100
+ * - L'affichage se fait via le bus I2C (hi2c1)
+ */
 
 void lcd_affichage(int T, int H){
 
@@ -72,10 +90,10 @@ void lcd_affichage(int T, int H){
 
 	sprintf(lcd_buf,"Humi: %d.%d%%",(H/100),(H%100));
 	lcd_position(&hi2c1,0,1);
-	//lcd_print(&hi2c1,lcd_buf);
-	lcd_print(&hi2c1,"test");
+	lcd_print(&hi2c1,lcd_buf);
+	//lcd_print(&hi2c1,"test");
 
-	//reglagecouleur(255,255,255);
+	reglagecouleur(255,255,255);
 }
 
 
@@ -114,11 +132,13 @@ int main(void)
 
   /* USER CODE END SysInit */
 
-  /* Initialize all configured peripherals */
+  /* Initializations de peripheriques */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_TIM1_Init();
   MX_I2C1_Init();
+
+  // Initialisation de l'ecran LCD
   lcd_init(&hi2c1,&lcdData);
   /* USER CODE BEGIN 2 */
 
@@ -132,7 +152,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
-
+    //Initialisation et handshake avec le DHT11
 	  if(DHT11_Init())
 
 	  {
@@ -183,6 +203,8 @@ int main(void)
 		  }
 
 	  	  	  }
+
+     // Affichage des valeurs sur l'écran LCD
 	  lcd_affichage(temp, hum);
 
 	  //Display_Temp(tCelsius);
